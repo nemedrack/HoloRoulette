@@ -370,7 +370,7 @@
             display: none;
         }
 
-        .winner-modal {
+        #winnerModal {
             display: none;
             position: fixed;
             z-index: 2000;
@@ -378,8 +378,9 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.8);
-            animation: fadeIn 0.3s ease;
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.3s ease-in;
         }
 
         @keyframes fadeIn {
@@ -388,89 +389,85 @@
         }
 
         @keyframes scaleIn {
-            from { 
-                transform: scale(0.5) translateY(-50%);
+            from {
+                transform: scale(0.5);
                 opacity: 0;
             }
-            to { 
-                transform: scale(1) translateY(0);
+            to {
+                transform: scale(1);
                 opacity: 1;
             }
         }
 
-        @keyframes confetti {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
-        }
-
         .winner-modal-content {
-            background: linear-gradient(135deg, #ffffff 0%, #f8f7fb 100%);
-            margin: 5% auto;
-            padding: 40px;
-            border: 3px solid #6b5b95;
+            position: relative;
+            background: linear-gradient(135deg, #6b5b95 0%, #5b4e7c 100%);
+            margin: 10% auto;
+            padding: 60px 40px;
             border-radius: 25px;
             width: 90%;
             max-width: 600px;
             text-align: center;
-            position: relative;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
             animation: scaleIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            box-shadow: 0 20px 60px rgba(107, 91, 149, 0.4);
-        }
-
-        .winner-modal-image {
-            width: 100%;
-            max-width: 400px;
-            height: auto;
-            margin: 20px auto;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .winner-modal-title {
-            font-size: 3em;
-            color: #6b5b95;
+            color: #fff;
+            font-size: 2.5em;
             margin-bottom: 20px;
-            font-weight: 800;
-            text-shadow: 2px 2px 4px rgba(107, 91, 149, 0.3);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: bounce 1s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         .winner-modal-name {
-            font-size: 2.5em;
+            background: white;
             color: #5b4e7c;
-            margin: 20px 0;
-            font-weight: 700;
-            padding: 20px;
-            background: linear-gradient(135deg, #eeeaf5 0%, #d4cce8 100%);
+            font-size: 3em;
+            font-weight: bold;
+            padding: 30px;
             border-radius: 15px;
-            border: 2px solid #8b7ab8;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
         }
 
         .winner-modal-close {
-            background: linear-gradient(135deg, #6b5b95 0%, #5b4e7c 100%);
-            color: white;
-            padding: 15px 40px;
+            background: white;
+            color: #5b4e7c;
             border: none;
+            padding: 15px 40px;
             border-radius: 10px;
             font-size: 18px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 20px;
             transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
         }
 
         .winner-modal-close:hover {
-            background: linear-gradient(135deg, #5b4e7c 0%, #4a3d63 100%);
+            background: #f0f0f0;
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(91, 78, 124, 0.4);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
         }
 
-        .confetti-piece {
+        #confettiCanvas {
             position: fixed;
-            width: 10px;
-            height: 10px;
-            background: #6b5b95;
-            top: -10px;
-            animation: confetti 3s linear forwards;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
             z-index: 1999;
         }
 
@@ -579,6 +576,24 @@
             margin-top: 5px;
         }
 
+        #winnerModal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
         @media (max-width: 768px) {
             .main-content {
                 grid-template-columns: 1fr;
@@ -659,15 +674,15 @@
             </div>
         </div>
 
-        <!-- Modal del ganador -->
-        <div id="winnerModal" class="winner-modal">
+        <div id="winnerModal">
             <div class="winner-modal-content">
                 <div class="winner-modal-title">¡GANADOR!</div>
-                <img src="https://i.imgur.com/imjnRDt.png" alt="Celebración" class="winner-modal-image">
                 <div class="winner-modal-name" id="winnerModalName"></div>
                 <button class="winner-modal-close" onclick="closeWinnerModal()">Cerrar</button>
             </div>
         </div>
+
+        <canvas id="confettiCanvas"></canvas>
     </div>
 
     <script>
@@ -984,7 +999,9 @@
                 }
                 
                 if (isInSlot) {
-                    document.getElementById('winnerDisplay').textContent = `Ganador: ${wheelSlots[i]}`;
+                    const winnerName = wheelSlots[i];
+                    document.getElementById('winnerDisplay').textContent = `Ganador: ${winnerName}`;
+                    showWinnerModal(winnerName);
                     return;
                 }
                 
@@ -992,7 +1009,9 @@
             }
             
             // Fallback
-            document.getElementById('winnerDisplay').textContent = `Ganador: ${wheelSlots[0]}`;
+            const winnerName = wheelSlots[0];
+            document.getElementById('winnerDisplay').textContent = `Ganador: ${winnerName}`;
+            showWinnerModal(winnerName);
         }
 
         function randomizeSlots() {
@@ -1143,6 +1162,86 @@
                     document.getElementById('winnerDisplay').textContent = 'Listo para girar';
                 }
             }, 2000);
+        }
+
+
+        function showWinnerModal(winnerName) {
+            const modal = document.getElementById('winnerModal');
+            const nameElement = document.getElementById('winnerModalName');
+            
+            nameElement.textContent = winnerName;
+            modal.style.display = 'block';
+            
+            //launchConfetti();
+        }
+
+        function closeWinnerModal() {
+            const modal = document.getElementById('winnerModal');
+            modal.style.display = 'none';
+        }
+
+        function launchConfetti() {
+            const confettiCanvas = document.getElementById('confettiCanvas');
+            const ctx = confettiCanvas.getContext('2d');
+            
+            confettiCanvas.width = window.innerWidth;
+            confettiCanvas.height = window.innerHeight;
+            
+            const particles = [];
+            const particleCount = 150;
+            const colors = ['#FFB3BA', '#FFDFBA', '#FFFFBA', '#BAFFC9', '#BAE1FF', '#FFB3E6', '#E6B3FF'];
+            
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * confettiCanvas.width,
+                    y: Math.random() * confettiCanvas.height - confettiCanvas.height,
+                    r: Math.random() * 6 + 4,
+                    d: Math.random() * particleCount,
+                    color: colors[Math.floor(Math.random() * colors.length)],
+                    tilt: Math.random() * 10 - 10,
+                    tiltAngleIncremental: Math.random() * 0.07 + 0.05,
+                    tiltAngle: 0
+                });
+            }
+            
+            let animationFrame;
+            
+            function drawConfetti() {
+                ctx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
+                
+                for (let i = 0; i < particles.length; i++) {
+                    const p = particles[i];
+                    ctx.beginPath();
+                    ctx.lineWidth = p.r / 2;
+                    ctx.strokeStyle = p.color;
+                    ctx.moveTo(p.x + p.tilt + p.r, p.y);
+                    ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r);
+                    ctx.stroke();
+                }
+                
+                updateConfetti();
+            }
+            
+            function updateConfetti() {
+                let alive = false;
+                
+                for (let i = 0; i < particles.length; i++) {
+                    const p = particles[i];
+                    p.tiltAngle += p.tiltAngleIncremental;
+                    p.y += (Math.cos(p.d) + 3 + p.r / 2) / 2;
+                    p.tilt = Math.sin(p.tiltAngle - i / 3) * 15;
+                    
+                    if (p.y <= confettiCanvas.height) alive = true;
+                }
+                
+                if (alive) {
+                    animationFrame = requestAnimationFrame(drawConfetti);
+                } else {
+                    cancelAnimationFrame(animationFrame);
+                }
+            }
+            
+            drawConfetti();
         }
 
         // Cerrar modal al hacer clic fuera de él
